@@ -32,15 +32,19 @@ const addMessage = async (id, content, authorization) => {
     const msg = {
       id: count+1, 
       sender: sender,
-      content:content
+      content: content
     }
     
     await Message.create(msg);
     chat.messages.push(msg);
 
+    const currentDate = new Date();  
+    msg.created = currentDate.toISOString();
+
     // Save the updated chat document
     await chat.save();
-    return 1;
+
+    return msg;
   } catch (err) {
     return null;
   }
@@ -66,7 +70,6 @@ const getMessage = async (id, authorization) => {
     const chat = await Chat.findOne({ id });
 
     return chat.messages;
-
   } catch (err) {
     return "1";
   }
