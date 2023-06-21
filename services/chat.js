@@ -17,11 +17,9 @@ const createChat = async (username, authorization) => {
   // Extract the token from the header
   try {
     token = JSON.parse(authorization.split(' ')[1]).token;
-  } catch(err) {
+  } catch (err) {
     token = authorization.split(' ')[1]; //androaid
   }
-
-  console.log("token:", token);
 
   try {
     // Verify the token is valid
@@ -64,9 +62,19 @@ const createChat = async (username, authorization) => {
     });
 
     if (user2Chats.length !== 0) {
-      return "chatExist"
+      console.log(user2Chats[0].id);
+      const userResult = {
+        id : user2Chats[0].id,
+        user: {
+          username : user.username,
+          displayName : user.displayName,
+          profilePic : user.profilePic
+        }
+      }
+      console.log(userResult);
+      return userResult;
     }
-    
+
 
     const count = await Chat.countDocuments({});
     const userA = { username: username, displayName: user.displayName, profilePic: user.profilePic };
@@ -76,7 +84,16 @@ const createChat = async (username, authorization) => {
       id: count + 1, users: [userA, userB], messages: [], userId: userId
     });
 
-    return "ok";
+    const userResult = {
+      id : chat.id,
+      user: {
+        username : user.username,
+        displayName : user.displayName,
+        profilePic : user.profilePic
+      }
+    }
+
+    return userResult;
   } catch (err) {
     return null;
   }
@@ -92,7 +109,7 @@ const createContacts = async (authorization) => {
   // Extract the token from the header
   try {
     token = JSON.parse(authorization.split(' ')[1]).token;
-  } catch(err) {
+  } catch (err) {
     token = authorization.split(' ')[1]; //androaid
   }
 
@@ -166,29 +183,59 @@ const createContacts = async (authorization) => {
 }
 
 
+const getChat = async (id, authorization) => {
+  // Check if authorization header exists
+  if (!authorization || !authorization.startsWith('Bearer ')) {
+    return null;
+  }
+
+  var token;
+  // Extract the token from the header
+  try {
+    token = JSON.parse(authorization.split(' ')[1]).token;
+  } catch (err) {
+    token = authorization.split(' ')[1]; //androaid
+  }
+  try {
+    const chat = await Chat.findOne({ id: id }).exec();
+    return chat;
+  } catch (error) {
+    return "400"
+  }
+}
+
+
 
 const deleteC = async (id, authorization) => {
+
+  // Check if authorization header exists
+  if (!authorization || !authorization.startsWith('Bearer ')) {
+    return null;
+  }
+
+  var token;
+  // Extract the token from the header
+  try {
+    token = JSON.parse(authorization.split(' ')[1]).token;
+  } catch (err) {
+    token = authorization.split(' ')[1]; //androaid
+  }
   try {
     const deletedChat = await Chat.findOneAndDelete({ id: id }).exec();
     if (deletedChat) {
       return "200"
 
-      // Chat successfully deleted
     } else {
       return "404"
-
-      // Chat with the specified id was not found
     }
   } catch (error) {
     return "400"
-
-    // Handle the error
-
   }
 };
 
 export default {
   createChat,
   createContacts,
+  getChat,
   deleteC
 };
