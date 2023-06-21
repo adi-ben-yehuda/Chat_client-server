@@ -6,7 +6,7 @@ const addMsg = async (req, res) => {
     res.status(400).json({error:'error'});
   }
   else {
-    res.json({ok:'ok'});
+    res.json(msg);
   }
 };
 
