@@ -3,6 +3,7 @@ const app = express();
 
 import bodyParser from 'body-parser'
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use(express.json())
 
 import cors from 'cors'
