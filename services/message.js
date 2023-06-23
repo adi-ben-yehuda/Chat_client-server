@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import Message from '../models/message.js';
 import Chat from '../models/chat.js';
 import UserPassName from '../models/userPassName.js';
+import { dictionary, sendPushNotification }  from './notifications.js';
 
 const addMessage = async (id, content, authorization) => {
   // Check if authorization header exists
@@ -13,7 +14,7 @@ const addMessage = async (id, content, authorization) => {
   // Extract the token from the header
   try {
     token = JSON.parse(authorization.split(' ')[1]).token;
-  } catch(err) {
+  } catch (err) {
     token = authorization.split(' ')[1]; //androaid
   }
 
@@ -25,21 +26,25 @@ const addMessage = async (id, content, authorization) => {
 
     const chat = await Chat.findOne({ id });
 
-    // const senderId = chat.userId;
     const senderUser = await UserPassName.findOne({ _id: senderId });
     const count = await Message.countDocuments();
     const sender = { 'username': senderUser.username }
     const msg = {
-      id: count+1, 
+      id: count + 1,
       sender: sender,
-      content:content
+      content: content
     }
-    
+
     await Message.create(msg);
     chat.messages.push(msg);
 
     // Save the updated chat document
     await chat.save();
+
+    const foundUser = chat.users.find(user => user.username !== sender.username);
+
+    sendPushNotification(dictionary.foundUser.username, senderUser.displayName, msg.content);
+
     return 1;
   } catch (err) {
     return null;
@@ -56,7 +61,7 @@ const getMessage = async (id, authorization) => {
   // Extract the token from the header
   try {
     token = JSON.parse(authorization.split(' ')[1]).token;
-  } catch(err) {
+  } catch (err) {
     token = authorization.split(' ')[1]; //androaid
   }
 

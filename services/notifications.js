@@ -1,12 +1,14 @@
-var admin = require("firebase-admin");
-var fcm = require('fcm-notification');
-var serviceAccount = require("../config/privateKey.json");
+import admin from "firebase-admin";
+import fcm from 'fcm-notification';
+import * as serviceAccount from "../config/privateKey.json" assert { type: "json" };
+
 const certPath = admin.credential.cert(serviceAccount);
 var FCM = new fcm(certPath);
 
-sendPushNotification= (fcm_token, title, body) => {
+let dictionary = {};
 
-    try{
+const sendPushNotification = (fcm_token, title, body) => {
+    try {
         let message = {
             android: {
                 notification: {
@@ -17,16 +19,18 @@ sendPushNotification= (fcm_token, title, body) => {
             token: fcm_token
         };
 
-        FCM.send(message, function(err, resp) {
-            if(err){
+        FCM.send(message, function (err, resp) {
+            if (err) {
                 throw err;
-            }else{
+            } else {
                 console.log('Successfully sent notification');
             }
         });
 
-    }catch(err){
+    } catch (err) {
         throw err;
-        }
-
     }
+}
+
+export { dictionary, sendPushNotification };
+
