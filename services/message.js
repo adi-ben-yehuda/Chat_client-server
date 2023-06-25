@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import Message from '../models/message.js';
 import Chat from '../models/chat.js';
 import UserPassName from '../models/userPassName.js';
+import { dictionary, sendPushNotification }  from './notifications.js';
 
 const addMessage = async (id, content, authorization) => {
   // Check if authorization header exists
