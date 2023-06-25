@@ -1,6 +1,6 @@
 import userPassName from '../models/userPassName.js';
 import jwt from 'jsonwebtoken'
-import { dictionary }  from './notifications.js';
+import { dictionary } from './notifications.js';
 
 const isLogin = async (username, password) => {
   // Validate the username and password against the User model
@@ -11,13 +11,18 @@ const isLogin = async (username, password) => {
 
   // Generate a token
   const token = jwt.sign({ userId: user._id }, process.env.KEY, { expiresIn: '1h' });
-  
-  dictionary[username] = token;
-  console.log(dictionary);
 
   return token;
 };
 
+const getFCMToken = async (username, token) => {
+  dictionary[username] = token;
+  console.log(dictionary);
+  
+  return 1;
+};
+
 export default {
-  isLogin
+  isLogin,
+  getFCMToken
 };

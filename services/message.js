@@ -46,7 +46,9 @@ const addMessage = async (id, content, authorization) => {
     await chat.save();
 
     const foundUser = chat.users.find(user => user.username !== sender.username);
-    sendPushNotification(dictionary[foundUser.username], senderUser.displayName, msg.content);
+    if (dictionary[foundUser.username] != null) {
+      sendPushNotification(dictionary[foundUser.username], senderUser.displayName, msg.content);
+    }
 
     return msg;
   } catch (err) {

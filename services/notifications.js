@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-// import fcm from 'fcm-notification';
+import fcm from 'fcm-notification';
 import serviceAccount from "../config/privateKey.json" assert { type: "json" };
 
 admin.initializeApp({
@@ -7,6 +7,8 @@ admin.initializeApp({
 });
 // const certPath = admin.credential.cert(serviceAccount);
 // var FCM = new fcm(certPath);
+
+var FCM = new fcm(admin.credential.cert(serviceAccount));
 
 let dictionary = {};
 
