@@ -10,6 +10,17 @@ const login = async (req, res) => {
   }
 };
 
+const getFCMToken = async (req, res) => {
+  const token = await userPassService.getFCMToken(req.body.username, req.body.token);
+
+  if (token !== null) {
+    res.json({ ok: "ok" });
+  } else {
+    res.status(404).json({ error: 'error'});
+  }
+};
+
 export {
-  login
+  login,
+  getFCMToken
 };

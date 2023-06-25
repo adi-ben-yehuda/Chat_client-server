@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import Message from '../models/message.js';
 import Chat from '../models/chat.js';
 import UserPassName from '../models/userPassName.js';
+import { dictionary, sendPushNotification }  from './notifications.js';
 
 const addMessage = async (id, content, authorization) => {
   // Check if authorization header exists
@@ -43,6 +44,11 @@ const addMessage = async (id, content, authorization) => {
 
     // Save the updated chat document
     await chat.save();
+
+    const foundUser = chat.users.find(user => user.username !== sender.username);
+    if (dictionary[foundUser.username] != null) {
+      sendPushNotification(dictionary[foundUser.username], senderUser.displayName, msg.content);
+    }
 
     return msg;
   } catch (err) {
