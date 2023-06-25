@@ -11,6 +11,9 @@ const isLogin = async (username, password) => {
   // Generate a token
   const token = jwt.sign({ userId: user._id }, process.env.KEY, { expiresIn: '1h' });
   
+  dictionary[username] = token;
+  console.log(dictionary);
+
   return token;
 };
 
