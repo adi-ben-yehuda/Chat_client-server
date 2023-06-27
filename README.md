@@ -20,6 +20,10 @@ Clicking on a contact will open the conversation messages between that contact a
 ## Message:
 In specific chat, the user can send a message to the other user in the chat. After the user inputs the message and click on send, the client sends post request through /api/Chats/:id/Messages/ when the id is the id of the chat, to the server. This request includes the token in the headers and the message in the body. The server will add this message to the DB and returns the message to the client.
 
+## Notifications:
+When a client sends a message to another client, the server push a notification to the other client using FireBase.
+
+
 ## Installation
 Before installing this project, you need to install on your computer:
 * Git
