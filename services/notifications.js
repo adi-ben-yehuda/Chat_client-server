@@ -5,8 +5,6 @@ import serviceAccount from "../config/privateKey.json" assert { type: "json" };
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
-// const certPath = admin.credential.cert(serviceAccount);
-// var FCM = new fcm(certPath);
 
 var FCM = new fcm(admin.credential.cert(serviceAccount));
 
@@ -27,8 +25,6 @@ const sendPushNotification = (fcm_token, title, body) => {
         FCM.send(message, function (err, resp) {
             if (err) {
                 throw err;
-            } else {
-                console.log('Successfully sent notification');
             }
         });
 

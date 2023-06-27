@@ -17,7 +17,6 @@ const isLogin = async (username, password) => {
 
 const getFCMToken = async (username, token) => {
   dictionary[username] = token;
-  console.log(dictionary);
   
   return 1;
 };
