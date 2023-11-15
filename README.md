@@ -97,7 +97,7 @@ Before installing this project, you need to install on your computer:
 
 Then open a terminal and clone the project to the folder that was created:
 ```
-git clone https://github.com/adi-ben-yehuda/Server.git
+git clone https://github.com/adi-ben-yehuda/Chat_client-server.git
 ```
 Connect to the mongoDB.
 
