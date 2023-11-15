@@ -1,6 +1,6 @@
 # Chat
 
-In this repository, there is a chat website that contains a server-side using Node JS and a client-side using React. The server side is suitable for Android apps like [this](https://github.com/adi-ben-yehuda/android_chat] or React websites. 
+In this repository, there is a chat website that contains a server-side using Node JS and a client-side using React. The server side is suitable for Android apps like [this](https://github.com/adi-ben-yehuda/android_chat) or React websites. 
 
 ## General Information
 
